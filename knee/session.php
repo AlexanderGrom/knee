@@ -1,162 +1,161 @@
 <?php
 /*
- * Knee framework
- * Назначение: Работа с сессией
+ * Работа с сессией
  */
 
 namespace Knee;
 
 class Session
 {
-	/**
-	 * Коннект
-	 */
-	private static $connection = null;
+    /**
+     * Коннект
+     */
+    private static $connection = null;
 
-	/**
-	 * Старт новой сессии
-	 */
-	public static function start()
-	{
-		$connect = static::connect();
+    /**
+     * Старт новой сессии
+     */
+    public static function start()
+    {
+        $connect = static::connect();
 
-		if (is_object($connect)) return true;
-		else {
-			static::$connection = static::connection();
-		}
+        if (is_object($connect)) return true;
+        else {
+            static::$connection = static::connection();
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Подключение драйвера сессии
-	 */
-	private static function connection()
-	{
-		$driver = mb_strtolower(Config::get('session.driver'));
+    /**
+     * Подключение драйвера сессии
+     */
+    private static function connection()
+    {
+        $driver = mb_strtolower(Config::get('session.driver'));
 
-		switch ($driver) {
-			case 'database':
-				return new Session\DataBase();
-			case 'file':
-				return new Session\File();
-			case 'cache':
-				return new Session\Cache();
-			default:
-				Error::e503(Lang::get('system.session.nodriver'));
-		}
-	}
+        switch ($driver) {
+            case 'database':
+                return new Session\DataBase();
+            case 'file':
+                return new Session\File();
+            case 'cache':
+                return new Session\Cache();
+            default:
+                Error::e503(Lang::get('system.session.nodriver'));
+        }
+    }
 
-	/**
-	 * Получение соединения
-	 */
-	private static function connect()
-	{
-		$connect = static::$connection;
+    /**
+     * Получение соединения
+     */
+    private static function connect()
+    {
+        $connect = static::$connection;
 
-		if (is_object($connect)) return $connect;
-		else return false;
-	}
+        if (is_object($connect)) return $connect;
+        else return false;
+    }
 
-	/**
-	 * Добавление данных сессии
-	 */
-	public static function set($key, $value)
-	{
-		$connect = static::connect();
+    /**
+     * Добавление данных сессии
+     */
+    public static function set($key, $value)
+    {
+        $connect = static::connect();
 
-		if (is_object($connect)) return $connect->set($key, $value);
-		else return false;
-	}
+        if (is_object($connect)) return $connect->set($key, $value);
+        else return false;
+    }
 
-	/**
-	 * Получение значения сессии по ключу
-	 */
-	public static function get($key)
-	{
-		$connect = static::connect();
+    /**
+     * Получение значения сессии по ключу
+     */
+    public static function get($key)
+    {
+        $connect = static::connect();
 
-		if (is_object($connect)) return $connect->get($key);
-		else return null;
-	}
+        if (is_object($connect)) return $connect->get($key);
+        else return null;
+    }
 
-	/**
-	 * Удаление данных сессии
-	 */
-	public static function del($key)
-	{
-		$connect = static::connect();
+    /**
+     * Удаление данных сессии
+     */
+    public static function del($key)
+    {
+        $connect = static::connect();
 
-		if (is_object($connect)) return $connect->del($key);
-		else return false;
-	}
+        if (is_object($connect)) return $connect->del($key);
+        else return false;
+    }
 
-	/**
-	 * Проверка существования данных в сессии
-	 */
-	public static function exists($key)
-	{
-		$connect = static::connect();
+    /**
+     * Проверка существования данных в сессии
+     */
+    public static function exists($key)
+    {
+        $connect = static::connect();
 
-		if (is_object($connect)) return $connect->exists($key);
-		else return false;
-	}
+        if (is_object($connect)) return $connect->exists($key);
+        else return false;
+    }
 
-	/**
-	 * Создание "секретного" ключа. Например для csrf
-	 */
-	public static function token()
-	{
-		$connect = static::connect();
+    /**
+     * Создание "секретного" ключа. Например для csrf
+     */
+    public static function token()
+    {
+        $connect = static::connect();
 
-		if (is_object($connect))  {
-			$key = 'knee__session_token';
+        if (is_object($connect))  {
+            $key = 'knee__session_token';
 
-			if (static::exists($key)) {
-				return static::get($key);
-			} else {
-				static::set($key, Str::hash(32));
-				return static::get($key);
-			}
+            if (static::exists($key)) {
+                return static::get($key);
+            } else {
+                static::set($key, Str::hash(32));
+                return static::get($key);
+            }
 
-		} else {
-			return null;
-		}
-	}
+        } else {
+            return null;
+        }
+    }
 
-	/**
-	 * Удаляет соединение
-	 */
-	private static function close()
-	{
-		static::$connection = null;
-	}
+    /**
+     * Удаляет соединение
+     */
+    private static function close()
+    {
+        static::$connection = null;
+    }
 
-	/**
-	 * Дестрой сессии
-	 */
-	public static function destroy()
-	{
-		$connect = static::connect();
+    /**
+     * Дестрой сессии
+     */
+    public static function destroy()
+    {
+        $connect = static::connect();
 
-		if (is_object($connect)) return $connect->destroy();
-		else return false;
-	}
+        if (is_object($connect)) return $connect->destroy();
+        else return false;
+    }
 
-	/**
-	 * Завершение последней начатой сессии
-	 */
-	public static function end()
-	{
-		$connect = static::connect();
+    /**
+     * Завершение последней начатой сессии
+     */
+    public static function end()
+    {
+        $connect = static::connect();
 
-		if (is_object($connect)) {
-			static::close();
-			return $connect->save();
-		} else {
-			return false;
-		}
-	}
+        if (is_object($connect)) {
+            static::close();
+            return $connect->save();
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>

@@ -1,76 +1,117 @@
 <?php
 /*
- * Knee framework
- * Назначение: Установка заголовоков
+ * Завершение работы скрипта и вывод одной из страниц ошибок
  */
 
 namespace Knee;
 
 class Error
 {
-	/**
-	 * Выброс ошибки 403 - Доступ запрещен
-	 */
-	public static function e403($msg = null)
-	{
-		Header::h403();
+    /**
+     * Выброс ошибки 403 - Доступ запрещен
+     *
+     * @param string|array $detals - опциональное сообщенние
+     */
+    public static function e403($detals = null)
+    {
+        Header::h403();
 
-		ob_end_clean_all();
+        ob_end_clean_all();
 
-		echo View::make('error.e403')
-			 ->with('message', $msg)
-			 ->compile();
+        if (!Request::is_ajax()) {
+            echo View::make('error.e403')
+                 ->with('detals', $detals)
+                 ->compile();
+        } else {
+            $outputData = array();
+            $outputData['status'] = '403 Forbidden';  
+            if (!is_null($detals)) {
+                $outputData['detals'] = $detals;
+            }    
+            echo json_encode($outputData, JSON_UNESCAPED_SLASHES);
+        }
 
-		exit();
-	}
+        exit();
+    }
 
-	/**
-	 * Выброс ошибки 404 - Страница не найдена
-	 */
-	public static function e404($msg = null)
-	{
-		Header::h404();
+    /**
+     * Выброс ошибки 404 - Страница не найдена
+     *
+     * @param string $detals - опциональное сообщенние
+     */
+    public static function e404($detals = null)
+    {
+        Header::h404();
 
-		ob_end_clean_all();
+        ob_end_clean_all();
 
-		echo View::make('error.e404')
-			 ->with('message', $msg)
-			 ->compile();
+        if (!Request::is_ajax()) {
+            echo View::make('error.e404')
+                 ->with('detals', $detals)
+                 ->compile();
+        } else {
+            $outputData = array();
+            $outputData['status'] = '404 Not Found';  
+            if (!is_null($detals)) {
+                $outputData['detals'] = $detals;
+            }    
+            echo json_encode($outputData, JSON_UNESCAPED_SLASHES);
+        }
+            
+        exit();
+    }
 
-		exit();
-	}
+    /**
+     * Выброс ошибки 410 - Страница удалена
+     *
+     * @param string $detals - опциональное сообщенние
+     */
+    public static function e410($detals = null)
+    {
+        Header::h410();
 
-	/**
-	 * Выброс ошибки 410 - Страница удалена
-	 */
-	public static function e410($msg = null)
-	{
-		Header::h410();
+        ob_end_clean_all();
 
-		ob_end_clean_all();
+        if (!Request::is_ajax()) {
+            echo View::make('error.e410')
+                 ->with('detals', $detals)
+                 ->compile();
+        } else {
+            $outputData = array();
+            $outputData['status'] = '410 Gone';  
+            if (!is_null($detals)) {
+                $outputData['detals'] = $detals;
+            }    
+            echo json_encode($outputData, JSON_UNESCAPED_SLASHES);
+        }
+        
+        exit();
+    }
 
-		echo View::make('error.e410')
-			 ->with('message', $msg)
-			 ->compile();
+    /**
+     * Выброс ошибки 503 - Сервис недоступен
+     *
+     * @param string $detals - опциональное сообщенние
+     */
+    public static function e503($detals = null)
+    {
+        Header::h503();
 
-		exit();
-	}
+        ob_end_clean_all();
 
-	/**
-	 * Выброс ошибки 503 - Сервис недоступен
-	 */
-	public static function e503($msg = null)
-	{
-		Header::h503();
-
-		ob_end_clean_all();
-
-		echo View::make('error.e503')
-			 ->with('message', $msg)
-			 ->compile();
-
-		exit();
-	}
+        if (!Request::is_ajax()) {
+            echo View::make('error.e503')
+                 ->with('detals', $detals)
+                 ->compile();
+        } else {
+            $outputData = array();
+            $outputData['status'] = '503 Service Unavailable';  
+            if (!is_null($detals)) {
+                $outputData['detals'] = $detals;
+            }    
+            echo json_encode($outputData, JSON_UNESCAPED_SLASHES);
+        }
+        
+        exit();
+    }
 }
-
-?>

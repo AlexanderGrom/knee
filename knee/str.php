@@ -1,242 +1,280 @@
 <?php
 /*
- * Knee framework
- * Назначение: Работа со строками
+ * Работа со строками
  */
 
 namespace Knee;
 
 class Str
 {
-	/**
-	 * Лимит на число пробелов
-	 */
-	public static function limit_space($text, $limit)
-	{
-		if ($limit > 0) {
-			$spaces = str_repeat(" ", $limit);
-			$limit = $limit + 1;
-			$text = preg_replace("#[ ]{".$limit.",}#is", $spaces, $text);
-		} else {
-			$text = preg_replace("#[ ]{1,}#is", "", $text);
-		}
+    /**
+     * Лимит на число пробелов
+     *
+     * @param string $text
+     * @param int $limit
+     * @return string
+     */
+    public static function limit_space($text, $limit)
+    {
+        if ($limit > 0) {
+            $spaces = str_repeat(" ", $limit);
+            $limit = $limit + 1;
+            $text = preg_replace("#[ ]{".$limit.",}#is", $spaces, $text);
+        } else {
+            $text = preg_replace("#[ ]{1,}#is", "", $text);
+        }
 
-		return $text;
-	}
+        return $text;
+    }
 
-	/**
-	 * Лимит на число перевода строк
-	 */
-	public static function limit_nr($text, $limit)
-	{
-		$text = str_replace("\r", "", $text);
+    /**
+     * Лимит на число перевода строк
+     *
+     * @param string $text
+     * @param int $limit
+     * @return string
+     */
+    public static function limit_nr($text, $limit)
+    {
+        $text = str_replace("\r", "", $text);
 
-		if ($limit > 0) {
-			$lines = str_repeat("\n", $limit);
-			$limit = $limit + 1;
-			$text = preg_replace("#[\n]{".$limit.",}#is", $lines, $text);
-		} else {
-			$text = preg_replace("#[\n]{1,}#is", " ", $text);
-		}
+        if ($limit > 0) {
+            $lines = str_repeat("\n", $limit);
+            $limit = $limit + 1;
+            $text = preg_replace("#[\n]{".$limit.",}#is", $lines, $text);
+        } else {
+            $text = preg_replace("#[\n]{1,}#is", " ", $text);
+        }
 
-		return $text;
-	}
+        return $text;
+    }
 
-	/**
-	 * Лимит на число символов в строке
-	 */
-	public static function limit_char($text, $limit, $cut = true, $end = true)
-	{
-		if (mb_strlen($text) > $limit) {
-			$text = mb_substr($text, 0, $limit);
+    /**
+     * Лимит на число символов в строке
+     *
+     * @param string $text
+     * @param int $limit
+     * @param boolean $cut
+     * @param boolean $dots
+     * @return string
+     */
+    public static function limit_char($text, $limit, $cut = true, $dots = true)
+    {
+        if (mb_strlen($text) > $limit) {
+            $text = mb_substr($text, 0, $limit);
 
-			if ($cut === false) {
-				$text = explode(" ", $text);
-				if ($end) array_pop($text);
-				$text = implode(" ",$text);
-			}
+            if ($cut === false) {
+                $text = explode(" ", $text);
+                if ($dots) {
+                    array_pop($text);
+                }
+                $text = implode(" ",$text);
+            }
 
-			$text = preg_replace('#[^\w]*$#isu', '', $text);
+            $text = preg_replace('#[^\w]*$#isu', '', $text);
 
-			$text .= ($end === true) ? "..." : "";
-		}
+            $text .= ($dots === true) ? "..." : "";
+        }
 
-		return $text;
-	}
+        return $text;
+    }
 
-	/**
-	 * Лимит на число байт в строке
-	 */
-	public static function limit_bytes($text, $limit, $cut = true, $end = true)
-	{
-		if (strlen($text) > $limit) {
-			$text = mb_strcut($text, 0, $limit);
+    /**
+     * Лимит на число выводимых строк
+     *
+     * @param string $text
+     * @param int $limit
+     * @return string
+     */
+    public static function limit_line($text, $limit)
+    {
+        $text = str_replace("\r", "", $text);
 
-			if ($cut === false) {
-				$text = explode(" ", $text);
-				if ($end) array_pop($text);
-				$text = implode(" ",$text);
-			}
+        if ($limit > 0) {
+            $lines = explode("\n", $text);
+            $lines_limit = array_slice($lines, 0, $limit);
+            $text = implode("\n", $lines_limit);
+        } else {
+            $text = "";
+        }
 
-			$text = preg_replace('#[^\w]*$#isu', '', $text);
+        return $text;
+    }
 
-			$text .= ($end === true) ? "..." : "";
-		}
+    /**
+     * Поиск в строке по "звездочке"
+     *
+     * @param string $pattern
+     * @param string $string
+     * @return boolean
+     */
+    public static function match($pattern, $string)
+    {
+        return (preg_match("#^".strtr(preg_quote($pattern, '#'),array('\*' => '.*'))."$#i", $string)) ? true : false;
+    }
 
-		return $text;
-	}
+    /**
+     * Символ перевода строки в тег <br>
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function nr2br($text)
+    {
+        $text = str_replace("\r", "", $text);
+        $text = str_replace("\n", "<br>", $text);
+        return $text;
+    }
 
-	/**
-	 * Лимит на число выводимых строк
-	 */
-	public static function limit_line($text, $limit)
-	{
-		$text = str_replace("\r", "", $text);
+    /**
+     * Тег <br> в символ перевода строки
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function br2nr($text)
+    {
+        return str_replace("<br>", "\n", $text);
+    }
 
-		if ($limit > 0) {
-			$lines = explode("\n", $text);
-			$lines_limit = array_slice($lines, 0, $limit);
-			$text = implode("\n", $lines_limit);
-		} else {
-			$text = "";
-		}
+    /**
+     * Правильное окончание для русских слов
+     *
+     * @param int $count
+     * @param string $str_1
+     * @param string $str_2
+     * @param string $str_3
+     * @return string
+     */
+    public static function str_ending_rus($count, $str_1, $str_2, $str_3)
+    {
+        if ($count % 10 == 1 AND $count != 11) $str = $str_1;
+        elseif (in_array($count % 10, array(2,3,4)) AND !in_array($count % 100, array(12,13,14))) $str = $str_2;
+        else $str = $str_3;
 
-		return $text;
-	}
+        return $str;
+    }
 
-	/**
-	 * Поиск в строке по "звездочке"
-	 */
-	public static function match($pattern, $string)
-	{
-		return (preg_match("#^".strtr(preg_quote($pattern, '#'),array('\*' => '.*'))."$#i", $string)) ? true : false;
-	}
+    /**
+     * Замена спец. символов
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function special($text)
+    {
+        $text = str_replace("&", "&#38;", $text);
+        $text = str_replace('"', "&#34;", $text);
+        $text = str_replace("'", "&#39;", $text);
+        $text = str_replace("<", "&#60;", $text);
+        $text = str_replace(">", "&#62;", $text);
 
-	/**
-	 * Символ перевода строки в тег <br>
-	 */
-	public static function nr2br($text)
-	{
-		$text = str_replace("\r", "", $text);
-		$text = str_replace("\n", "<br>", $text);
-		return $text;
-	}
+        return $text;
+    }
 
-	/**
-	 * Тег <br> в символ перевода строки
-	 */
-	public static function br2nr($text)
-	{
-		return str_replace("<br>", "\n", $text);
-	}
+    /**
+     * Генерация случайной строки заданой длины
+     *
+     * @param int $length
+     * @return string
+     */
+    public static function hash($length)
+    {
+        return substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz0123456789', 8)), 0, $length);
+    }
 
-	/**
-	 * Правильное окончание для русских слов
-	 */
-	public static function str_ending_rus($count, $str_1, $str_2, $str_3)
-	{
-		if ($count % 10 == 1 AND $count != 11) $str = $str_1;
-		elseif (in_array($count % 10, array(2,3,4)) AND !in_array($count % 100, array(12,13,14))) $str = $str_2;
-		else $str = $str_3;
+    /**
+     * Генерация случайной строки заданой длины разного регистра
+     *
+     * @param int $length
+     * @return string
+     */
+    public static function hash32($length)
+    {
+        return substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 8)), 0, $length);
+    }
 
-		return $str;
-	}
+    /**
+     * "Подсветка" ссылок в строке
+     *
+     * @param int $text
+     * @return string
+     */
+    public static function highlight_link($text)
+    {
+        $result = preg_replace_callback('#(?<=^|\s)(?P<href>(((http|https|ftp)://)|(www\.))[0-9a-z\-]+([\.][0-9a-z\-]+)+([/]?|[/](.+?)))(?=[\.\,\;\?\!]*(\s|$))#is', 'Str::highlight_link_build', $text);
 
-	/**
-	 * Замена спец. символов
-	 */
-	public static function special($text)
-	{
-		$text = str_replace("&", "&#38;", $text);
-		$text = str_replace('"', "&#34;", $text);
-		$text = str_replace("'", "&#39;", $text);
-		$text = str_replace("<", "&#60;", $text);
-		$text = str_replace(">", "&#62;", $text);
+        return (is_string($result)) ? $result : $text;
+    }
 
-		return $text;
-	}
+    /**
+     * "Подсветка" ссылок в строке (build)
+     *
+     * @param array $match
+     * @return string
+     */
+    protected static function highlight_link_build($match)
+    {
+        $href = trim($match['href']);
 
-	/**
-	 * Генерация случайной строки заданой длины
-	 */
-	public static function hash($length)
-	{
-		return substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz0123456789', 8)), 0, $length);
-	}
+        if (preg_match('#^(http|https|ftp)#is', $href) == 0) $href = "http://".$href;
 
-	/**
-	 * Генерация случайной строки заданой длины разного регистра
-	 */
-	public static function hash32($length)
-	{
-		return substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 8)), 0, $length);
-	}
+        return "<a href=\"".$href."\">".$href."</a>";
+    }
 
-	/**
-	 * "Подсветка" ссылок в строке
-	 */
-	public static function highlight_link($text)
-	{
-		$result = preg_replace_callback('#(?<=^|\s)(?P<href>(((http|https|ftp)://)|(www\.))[0-9a-z\-]+([\.][0-9a-z\-]+)+([/]?|[/](.+?)))(?=[\.\,\;\?\!]*(\s|$))#is', 'Str::highlight_link_build', $text);
+    /**
+     * Замена двойных кавычек на кавычки елочки
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function quote2quote($text)
+    {
+        $result = preg_replace('#"(.*?)"#u', '«$1»', $text);
 
-		return (is_string($result)) ? $result : $text;
-	}
+        return (is_string($result)) ? $result : $text;
+    }
 
-	/**
-	 * "Подсветка" ссылок в строке (build)
-	 */
-	private static function highlight_link_build($match)
-	{
-		$href = trim($match['href']);
+    /**
+     * Замена короткого тире на длинное тире
+     *
+     * @param string $text
+     * @return string
+     */
+    public static function dash2dash($text)
+    {
+        $result = preg_replace('#(?<=^|\s)-(?=\s|$)#', '–', $text);
 
-		if (preg_match('#^(http|https|ftp)#is', $href) == 0) $href = "http://".$href;
+        return (is_string($result)) ? $result : $text;
+    }
 
-		return "<a href=\"".$href."\">".$href."</a>";
-	}
+    /**
+     * Вернет цифровую строку
+     *
+     * @return string
+     */
+    public static function digit()
+    {
+        return '0123456789';
+    }
 
-	/**
-	 * Замена двойных кавычек на кавычки елочки
-	 */
-	public static function quote2quote($text)
-	{
-		$result = preg_replace('#"(.*?)"#u', '«$1»', $text);
+    /**
+     * Вернет буквеную строку
+     *
+     * @return string
+     */
+    public static function alpha()
+    {
+        return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    }
 
-		return (is_string($result)) ? $result : $text;
-	}
-
-	/**
-	 * Замена короткого тире на длинное тире
-	 */
-	public static function dash2dash($text)
-	{
-		$result = preg_replace('#(?<=^|\s)-(?=\s|$)#', '–', $text);
-
-		return (is_string($result)) ? $result : $text;
-	}
-
-	/**
-	 * Вернет цифровую строку
-	 */
-	public static function digit()
-	{
-		return '0123456789';
-	}
-
-	/**
-	 * Вернет буквеную строку
-	 */
-	public static function alpha()
-	{
-		return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	}
-
-	/**
-	 * Вернет буквено-цифровую строку
-	 */
-	public static function alnum()
-	{
-		return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-	}
+    /**
+     * Вернет буквено-цифровую строку
+     *
+     * @return string
+     */
+    public static function alnum()
+    {
+        return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    }
 }
-
-?>

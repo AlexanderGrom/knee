@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Knee framework
- * Назначение: Ручная загрузка скриптов. Тех, кому не нужен Autoload
-*/
+ * Ручная загрузка скриптов. Тех, кому не нужен Autoload
+ */
 
 namespace Knee;
 
@@ -11,4 +10,3 @@ namespace Knee;
  * Ручная загрузка скриптов
  */
 Loader::path(ROOT_PATH.'/app/functions/main.php');
-?>

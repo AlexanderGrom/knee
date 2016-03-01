@@ -1,18 +1,15 @@
 <?php
 
 /**
- * Knee framework
- * Назначение: Дополнительная настройка работы
-*/
+ * Дополнительная настройка
+ */
 
 /**
  * Доп. заголовки
  */
-Header::send('X-Powered-By: Alcohol');
+Header::send('X-Powered-By: Knee');
 
 /**
  * Указание языка
  */
 Lang::setLocale('ru');
-
-?>

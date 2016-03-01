@@ -1,276 +1,358 @@
 <?php
 /*
- * Knee framework
- * Назначение: Работа с датой/временем
+ * Работа с датой/временем
  */
 
 namespace Knee;
 
 class Time
 {
-	/**
-	 * Установка временной зоны по умолчанию
-	 */
-	public static function setTimeZone($timezone)
-	{
-		return date_default_timezone_set($timezone);
-	}
+    /**
+     * Установка временной зоны по умолчанию
+     *
+     * @param string $timezone
+     * @return boolean
+     */
+    public static function setTimeZone($timezone)
+    {
+        return date_default_timezone_set($timezone);
+    }
 
-	/**
-	 * Возвращает установленную временную зону
-	 */
-	public static function getTimeZone()
-	{
-		return date_default_timezone_get();
-	}
+    /**
+     * Возвращает установленную временную зону
+     *
+     * @return string
+     */
+    public static function getTimeZone()
+    {
+        return date_default_timezone_get();
+    }
 
-	/**
-	 * Смещение часового пояса относительно Гринвича
-	 */
-	public static function offset($timezone = null)
-	{
-		$timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
-		return (new \DateTime("now", $timezone))->getOffset();
-	}
+    /**
+     * Смещение часового пояса относительно Гринвича
+     *
+     * @param string $timezone
+     * @return int
+     */
+    public static function offset($timezone = null)
+    {
+        $timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
+        return (new \DateTime("now", $timezone))->getOffset();
+    }
 
-	/**
-	 * Текущая временная отметка
-	 */
-	public static function now()
-	{
-		return (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp();
-	}
+    /**
+     * Текущая временная отметка
+     */
+    public static function now()
+    {
+        return (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp();
+    }
 
-	/**
-	 * Временная отметка начала сегодняшнего дня
-	 */
-	public static function today($timezone = null)
-	{
-		$timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
-		return (new \DateTime('today', $timezone))->getTimestamp();
-	}
+    /**
+     * Временная отметка начала сегодняшнего дня
+     *
+     * @param string $timezone
+     * @return int
+     */
+    public static function today($timezone = null)
+    {
+        $timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
+        return (new \DateTime('today', $timezone))->getTimestamp();
+    }
 
-	/**
-	 * Временная отметка начала вчерашнего дня
-	 */
-	public static function yesterday($timezone = null)
-	{
-		$timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
-		return (new \DateTime('yesterday', $timezone))->getTimestamp();
-	}
+    /**
+     * Временная отметка начала вчерашнего дня
+     *
+     * @param string $timezone
+     * @return int
+     */
+    public static function yesterday($timezone = null)
+    {
+        $timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
+        return (new \DateTime('yesterday', $timezone))->getTimestamp();
+    }
 
-	/**
-	 * Временная отметка начала завтрашнего дня
-	 */
-	public static function tomorrow($timezone = null)
-	{
-		$timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
-		return (new \DateTime('tomorrow', $timezone))->getTimestamp();
-	}
+    /**
+     * Временная отметка начала завтрашнего дня
+     *
+     * @param string $timezone
+     * @return int
+     */
+    public static function tomorrow($timezone = null)
+    {
+        $timezone = (is_string($timezone)) ? new \DateTimeZone($timezone) : null;
+        return (new \DateTime('tomorrow', $timezone))->getTimestamp();
+    }
 
-	/**
-	 * Для совместимости
-	 */
-	public static function sec($second = 0)
-	{
-		return $second;
-	}
+    /**
+     * Для совместимости
+     *
+     * @param int|float $second
+     * @return int
+     */
+    public static function sec($second = 0)
+    {
+        return $second;
+    }
 
-	/**
-	 * Перевод минут в секунды
-	 */
-	public static function min($minute = 0)
-	{
-		return $minute * 60;
-	}
+    /**
+     * Перевод минут в секунды
+     *
+     * @param int|float $second
+     * @return int
+     */
+    public static function min($minute = 0)
+    {
+        return $minute * 60;
+    }
 
-	/**
-	 * Перевод часов в секунды
-	 */
-	public static function hour($hour = 0)
-	{
-		return $hour * 60 * 60;
-	}
+    /**
+     * Перевод часов в секунды
+     *
+     * @param int|float $second
+     * @return int
+     */
+    public static function hour($hour = 0)
+    {
+        return $hour * 60 * 60;
+    }
 
-	/**
-	 * Перевод дней в секунды
-	 */
-	public static function day($day = 0)
-	{
-		return $day * 60 * 60 * 24;
-	}
+    /**
+     * Перевод дней в секунды
+     *
+     * @param int|float $second
+     * @return int
+     */
+    public static function day($day = 0)
+    {
+        return $day * 60 * 60 * 24;
+    }
 
-	/**
-	 * Перевод месяцев в секунды
-	 */
-	public static function month($month = 0, $timezone = null)
-	{
-		$_time = static::now();
+    /**
+     * Перевод месяцев в секунды
+     *
+     * @param int $month
+     * @param string $timezone
+     * @return int
+     */
+    public static function month($month = 0, $timezone = null)
+    {
+        $_time = static::now();
 
-		$date_obj = new \DateTime();
+        $date_obj = new \DateTime();
 
-		if (is_string($timezone)) $date_obj->setTimezone(new \DateTimeZone($timezone));
+        if (is_string($timezone)) {
+            $date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 
-		$date_obj->setTimestamp($_time);
-		$date_obj->modify('+'.$month.' month');
+        $date_obj->setTimestamp($_time);
+        $date_obj->modify('+'.$month.' month');
 
-		return $date_obj->getTimestamp() - $_time;
-	}
+        return $date_obj->getTimestamp() - $_time;
+    }
 
-	/**
-	 * Перевод годов в секунды
-	 */
-	public static function year($year = 0, $timezone = null)
-	{
-		$_time = static::now();
+    /**
+     * Перевод годов в секунды
+     *
+     * @param int $year
+     * @param string $timezone
+     * @return int
+     */
+    public static function year($year = 0, $timezone = null)
+    {
+        $_time = static::now();
 
-		$date_obj = new \DateTime();
+        $date_obj = new \DateTime();
 
-		if (is_string($timezone)) $date_obj->setTimezone(new \DateTimeZone($timezone));
+        if (is_string($timezone)) {
+            $date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 
-		$date_obj->setTimestamp($_time);
-		$date_obj->modify('+'.$year.' year');
+        $date_obj->setTimestamp($_time);
+        $date_obj->modify('+'.$year.' year');
 
-		return $date_obj->getTimestamp() - $_time;
-	}
+        return $date_obj->getTimestamp() - $_time;
+    }
 
-	/**
-	 * Время из строки
-	 */
-	public static function relative($format, $timezone = null)
-	{
-		$time = 0;
-		if (preg_match('#^(?<sign>[+-]{1})?(?<number>\d+)[ ]*(?<value>sec|min|hour|day|month|year)$#is', trim($format), $match) != 0) {
-			switch ($match['value']) {
-				case 'sec':
-					$time = Time::sec($match['number']);
-					break;
-				case 'min':
-					$time = Time::min($match['number']);
-					break;
-				case 'hour':
-					$time = Time::hour($match['number']);
-					break;
-				case 'day':
-					$time = Time::day($match['number']);
-					break;
-				case 'month':
-					$time = Time::month($match['number'], $timezone);
-					break;
-				case 'year':
-					$time = Time::year($match['number'], $timezone);
-					break;
-			}
+    /**
+     * Время из строки
+     *
+     * @param string $format
+     * @param string $timezone
+     * @return int
+     */
+    public static function relative($format, $timezone = null)
+    {
+        $time = 0;
+        if (preg_match('#^(?<sign>[+-]{1})?(?<number>\d+)[ ]*(?<value>sec|min|hour|day|month|year)$#is', trim($format), $match) != 0) {
+            switch ($match['value']) {
+                case 'sec':
+                    $time = Time::sec($match['number']);
+                    break;
+                case 'min':
+                    $time = Time::min($match['number']);
+                    break;
+                case 'hour':
+                    $time = Time::hour($match['number']);
+                    break;
+                case 'day':
+                    $time = Time::day($match['number']);
+                    break;
+                case 'month':
+                    $time = Time::month($match['number'], $timezone);
+                    break;
+                case 'year':
+                    $time = Time::year($match['number'], $timezone);
+                    break;
+            }
 
-			if (isset($match['sign']) AND $match['sign'] == '-') {
-				$time *= -1;
-			}
-		}
+            if (isset($match['sign']) AND $match['sign'] == '-') {
+                $time *= -1;
+            }
+        }
 
-		return $time;
-	}
+        return $time;
+    }
 
-	/**
-	 * Проверяет относится ли временная отметка к сегодняшнему дню
-	 */
-	public static function is_today($time = 0, $timezone = null)
-	{
-		$date_obj = new \DateTime();
+    /**
+     * Проверяет относится ли временная отметка к сегодняшнему дню
+     *
+     * @param int $time
+     * @param string $timezone
+     * @return boolean
+     */
+    public static function is_today($time = 0, $timezone = null)
+    {
+        $date_obj = new \DateTime();
 
-		if (is_string($timezone)) $date_obj->setTimezone(new \DateTimeZone($timezone));
+        if (is_string($timezone)) {
+            $date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 
-		$date_obj->setTimestamp($time);
-		$date_obj->setTime(0, 0, 0);
+        $date_obj->setTimestamp($time);
+        $date_obj->setTime(0, 0, 0);
 
-		$date_timestamp = $date_obj->getTimestamp();
-		$today_timestamp = static::today($timezone);
+        $date_timestamp = $date_obj->getTimestamp();
+        $today_timestamp = static::today($timezone);
 
-		return ($date_timestamp == $today_timestamp) ? true : false;
-	}
+        return ($date_timestamp == $today_timestamp) ? true : false;
+    }
 
-	/**
-	 * Проверяет относится ли временная отметка ко вчерашнему дню
-	 */
-	public static function is_yesterday($time = 0, $timezone = null)
-	{
-		$date_obj = new \DateTime();
+    /**
+     * Проверяет относится ли временная отметка ко вчерашнему дню
+     *
+     * @param int $time
+     * @param string $timezone
+     * @return boolean
+     */
+    public static function is_yesterday($time = 0, $timezone = null)
+    {
+        $date_obj = new \DateTime();
 
-		if (is_string($timezone)) $date_obj->setTimezone(new \DateTimeZone($timezone));
+        if (is_string($timezone)) {
+            $date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 
-		$date_obj->setTimestamp($time);
-		$date_obj->setTime(0, 0, 0);
+        $date_obj->setTimestamp($time);
+        $date_obj->setTime(0, 0, 0);
 
-		$date_timestamp = $date_obj->getTimestamp();
-		$yesterday_timestamp = static::yesterday($timezone);
+        $date_timestamp = $date_obj->getTimestamp();
+        $yesterday_timestamp = static::yesterday($timezone);
 
-		return ($date_timestamp == $yesterday_timestamp) ? true : false;
-	}
+        return ($date_timestamp == $yesterday_timestamp) ? true : false;
+    }
 
-	/**
-	 * Проверяет относится ли временная отметка к завтрашнему дню
-	 */
-	public static function is_tomorrow($time = 0, $timezone = null)
-	{
-		$date_obj = new \DateTime();
+    /**
+     * Проверяет относится ли временная отметка к завтрашнему дню
+     *
+     * @param int $time
+     * @param string $timezone
+     * @return boolean
+     */
+    public static function is_tomorrow($time = 0, $timezone = null)
+    {
+        $date_obj = new \DateTime();
 
-		if (is_string($timezone)) $date_obj->setTimezone(new \DateTimeZone($timezone));
+        if (is_string($timezone)) {
+            $date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 
-		$date_obj->setTimestamp($time);
-		$date_obj->setTime(0, 0, 0);
+        $date_obj->setTimestamp($time);
+        $date_obj->setTime(0, 0, 0);
 
-		$date_timestamp = $date_obj->getTimestamp();
-		$tomorrow_timestamp = static::tomorrow($timezone);
+        $date_timestamp = $date_obj->getTimestamp();
+        $tomorrow_timestamp = static::tomorrow($timezone);
 
-		return ($date_timestamp == $tomorrow_timestamp) ? true : false;
-	}
+        return ($date_timestamp == $tomorrow_timestamp) ? true : false;
+    }
 
-	/**
-	 * Проверяет дату и время на корректрость
-	 */
-	public static function check($foramt, $date)
-	{
-		$check = true;
+    /**
+     * Проверяет дату и время на корректрость
+     *
+     * @param string $format
+     * @param string $date
+     * @return boolean
+     */
+    public static function check($foramt, $date)
+    {
+        $check = true;
 
-		try {
-			$date = \DateTime::createFromFormat($foramt, $date);
+        try {
+            $date = \DateTime::createFromFormat($foramt, $date);
 
-			if ($date === false) throw new \Exception();
+            if ($date === false) {
+                throw new \Exception();
+            }
 
-			$date_error = $date->getLastErrors();
+            $date_error = $date->getLastErrors();
 
-			if ($date_error['warning_count'] > 0) throw new \Exception();
-		} catch (\Exception $e) {
-			$check = false;
-		}
+            if ($date_error['warning_count'] > 0) {
+                throw new \Exception();
+            }
+        } catch (\Exception $e) {
+            $check = false;
+        }
 
-		return $check;
-	}
+        return $check;
+    }
 
-	/**
-	 * Преобразует дату в метку времени
-	 */
-	public static function time($format, $date, $timezone = null)
-	{
-		if (static::check($format, $date) === false) return false;
+    /**
+     * Преобразует дату в метку времени
+     *
+     * @param string $format
+     * @param string $date
+     * @param string $timezone
+     * @return boolean
+     */
+    public static function time($format, $date, $timezone = null)
+    {
+        if (static::check($format, $date) === false) return false;
 
-		if (is_string($timezone)) {
-			$date_obj = \DateTime::createFromFormat($format, $date, new \DateTimeZone($timezone));
-		} else {
-			$date_obj = \DateTime::createFromFormat($format, $date);
-		}
+        if (is_string($timezone)) {
+            $date_obj = \DateTime::createFromFormat($format, $date, new \DateTimeZone($timezone));
+        } else {
+            $date_obj = \DateTime::createFromFormat($format, $date);
+        }
 
-		return $date_obj->getTimestamp();
-	}
+        return $date_obj->getTimestamp();
+    }
 
-	/**
+    /**
 	 * Возвращает текущую дату
-	 */
+     *
+     * @param string $format
+     * @param int $time
+     * @param string $timezone
+     * @return string
+     */
 	public static function date($format, $time=0, $timezone = null)
 	{
 		$lang_month = Lang::get('system.time.date-month');
 
 		$month_date_obj = new \DateTime();
-		if (is_string($timezone)) $month_date_obj->setTimezone(new \DateTimeZone($timezone));
+		if (is_string($timezone)) {
+            $month_date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 		$month_date_obj->setTimestamp($time);
 
 		$month_index = $month_date_obj->format('n') - 1;
@@ -286,7 +368,9 @@ class Time
 		$lang_week = Lang::get('system.time.date-week');
 
 		$week_date_obj = new \DateTime();
-		if (is_string($timezone)) $week_date_obj->setTimezone(new \DateTimeZone($timezone));
+		if (is_string($timezone)) {
+            $week_date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 		$week_date_obj->setTimestamp($time);
 
 		$week_index = $week_date_obj->format('N') - 1;
@@ -300,72 +384,95 @@ class Time
 		}
 
 		$date_obj = new \DateTime();
-		if (is_string($timezone)) $date_obj->setTimezone(new \DateTimeZone($timezone));
+		if (is_string($timezone)) {
+            $date_obj->setTimezone(new \DateTimeZone($timezone));
+        }
 		$date_obj->setTimestamp($time);
 
 		return $date_obj->format($format);
 	}
+    
+    /**
+     * Возвращает разницу между двумя датами виде ассоциативного массива
+     *
+     * @param int $start_time
+     * @param int $end_time
+     * @param string $timezone
+     * @return array
+     */
+    public static function diff($start_time = 0, $end_time = 0, $timezone = null)
+    {
+        $start_obj = new \DateTime();
+        if (is_string($timezone)) {
+            $start_obj->setTimezone(new \DateTimeZone($timezone));
+        }
+        $start_obj->setTimestamp($start_time);
 
-	/**
-	 * Возвращает разницу между двумя датами виде ассоциативного массива
-	 */
-	public static function diff($start_time = 0, $end_time = 0, $timezone = null)
-	{
-		$start_obj = new \DateTime();
-		if (is_string($timezone)) $start_obj->setTimezone(new \DateTimeZone($timezone));
-		$start_obj->setTimestamp($start_time);
+        $end_obj = new \DateTime();
+        if (is_string($timezone)) {
+            $end_obj->setTimezone(new \DateTimeZone($timezone));
+        }
+        $end_obj->setTimestamp($end_time);
 
-		$end_obj = new \DateTime();
-		if (is_string($timezone)) $end_obj->setTimezone(new \DateTimeZone($timezone));
-		$end_obj->setTimestamp($end_time);
+        $diff = $start_obj->diff($end_obj, true);
 
-		$diff = $start_obj->diff($end_obj, true);
+        $result = array();
 
-		$result = array();
+        $result['year'] = $diff->format('%y');
+        $result['month'] = $diff->format('%m');
+        $result['day'] = $diff->format('%d');
+        $result['hour'] = $diff->format('%h');
+        $result['min'] = $diff->format('%i');
+        $result['sec'] = $diff->format('%s');
 
-		$result['year'] = $diff->format('%y');
-		$result['month'] = $diff->format('%m');
-		$result['day'] = $diff->format('%d');
-		$result['hour'] = $diff->format('%h');
-		$result['min'] = $diff->format('%i');
-		$result['sec'] = $diff->format('%s');
+        return $result;
+    }
 
-		return $result;
-	}
+    /**
+     * Возвращает общую разницу между двумя датами виде ассоциативного массива
+     *
+     * @param int $start_time
+     * @param int $end_time
+     * @param string $timezone
+     * @return array
+     */
+    public static function diff_total($start_time = 0, $end_time = 0, $timezone = null)
+    {
+        $_seconds = abs($start_time - $end_time);
 
-	/**
-	 * Возвращает общую разницу между двумя датами виде ассоциативного массива
-	 */
-	public static function diff_total($start_time = 0, $end_time = 0, $timezone = null)
-	{
-		$_seconds = abs($start_time - $end_time);
+        $start_obj = new \DateTime();
+        if (is_string($timezone)) {
+            $start_obj->setTimezone(new \DateTimeZone($timezone));
+        }
+        $start_obj->setTimestamp($start_time);
 
-		$start_obj = new \DateTime();
-		if (is_string($timezone)) $start_obj->setTimezone(new \DateTimeZone($timezone));
-		$start_obj->setTimestamp($start_time);
+        $end_obj = new \DateTime();
+        if (is_string($timezone)) {
+            $end_obj->setTimezone(new \DateTimeZone($timezone));
+        }
+        $end_obj->setTimestamp($end_time);
 
-		$end_obj = new \DateTime();
-		if (is_string($timezone)) $end_obj->setTimezone(new \DateTimeZone($timezone));
-		$end_obj->setTimestamp($end_time);
+        $diff = $start_obj->diff($end_obj, true);
 
-		$diff = $start_obj->diff($end_obj, true);
+        $result = array();
 
-		$result = array();
+        $result['year'] = $diff->format('%y');
+        $result['month'] = $diff->format('%m') + ($diff->format('%y') * 12);
+        $result['day'] = floor($_seconds / 60 / 60 / 24);
+        $result['hour'] = floor($_seconds / 60 / 60);
+        $result['min'] = floor($_seconds / 60);
+        $result['sec'] = $_seconds;
 
-		$result['year'] = $diff->format('%y');
-		$result['month'] = $diff->format('%m') + ($diff->format('%y') * 12);
-		$result['day'] = floor($_seconds / 60 / 60 / 24);
-		$result['hour'] = floor($_seconds / 60 / 60);
-		$result['min'] = floor($_seconds / 60);
-		$result['sec'] = $_seconds;
-
-		return $result;
-	}
-
-	/**
+        return $result;
+    }
+    
+    /**
 	 * Экранирование спецсимволов в строке формата даты
+     *
+     * @param string $str
+     * @return string
 	 */
-	private static function date_escape($str)
+	protected static function date_escape($str)
 	{
 		$chars_list = preg_split('##su', $str, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -382,5 +489,3 @@ class Time
 		return $string;
 	}
 }
-
-?>

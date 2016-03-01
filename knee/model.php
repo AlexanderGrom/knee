@@ -1,7 +1,6 @@
 <?php
 /*
- * Knee framework
- * Назначение: Доступ к моделям
+ * Доступ к моделям
  */
 
 namespace Knee;
@@ -10,11 +9,16 @@ class Model
 {
 	/**
 	 * Массив с моделями
+     *
+     * @var array
 	 */
-	private static $models = array();
+	protected static $models = array();
 
 	/**
-	 * Получение моделей
+	 * Получение модели
+     *
+     * @param string $path - точечный путь к моделе
+     * @return false|object
 	 */
 	public static function get($path)
 	{
@@ -25,10 +29,14 @@ class Model
 		$parse_path = explode(".", $path);
 
 		$diff = array_diff($parse_path, array(''));
-		if ((count($parse_path) - count($diff)) != 0) return false;
+		if ((count($parse_path) - count($diff)) != 0) {
+            return false;
+        }
 
 		foreach ($parse_path as $value) {
-			if (substr($value, 0, 1) == '_') return false;
+			if (substr($value, 0, 1) == '_') {
+                return false;
+            }
 		}
 
 		$file_path = ROOT_PATH.'/app/models/'.implode("/", $parse_path).'.php';
@@ -40,14 +48,7 @@ class Model
 				$item = ucwords($item);
 			});
 
-			$class = implode("_", $parse_path)."_Model";
-
-			if (!class_exists($class)) {
-				array_pop($parse_path);
-				array_push($parse_path, $class);
-
-				$class = '\\App\\Models\\'.implode('\\', $parse_path);
-			}
+            $class = '\\App\\Models\\'.implode('\\', $parse_path)."_Model";
 
 			return static::$models[$path] = new $class();
 		} else {
@@ -55,5 +56,3 @@ class Model
 		}
 	}
 }
-
-?>

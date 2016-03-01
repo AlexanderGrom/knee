@@ -1,13 +1,13 @@
 <?php
-
 /**
- * Knee framework
- * Назначение: Дополнительные функции ядра
+ * Дополнительные функции ядра
  */
-
 
 /**
  * Выводит информацию о значении
+ *
+ * @param mixed $value - значение
+ * @param boolean $dump - использовать ли var_dump
  */
 function test($value, $dump = false)
 {
@@ -15,9 +15,24 @@ function test($value, $dump = false)
 	($dump) ? var_dump($value) : print_r($value);
 	echo "</pre>";
 }
+ 
+/**
+ * Удаляет элементы массива с указанным значением
+ *
+ * @param array $array
+ * @param string $value
+ * @return array
+ */
+function array_delete($array, $value)
+{
+	$value = (is_array($value)) ? $value : array($value);
+	return array_diff($array, $value);
+}
 
 /**
  * Проверяет являются ли значения валидными положительными числами
+ *
+ * @return boolean
  */
 function is_numbers()
 {
@@ -38,16 +53,11 @@ function is_numbers()
 }
 
 /**
- * Удаляет элементы массива с указанным значением
- */
-function array_delete($array, $value)
-{
-	$value = (is_array($value)) ? $value : array($value);
-	return array_diff($array, $value);
-}
-
-/**
  * Удаляет элементы массива с указанным ключом
+ *
+ * @param array $array
+ * @param string $value
+ * @return array
  */
 function array_delete_key($array, $value)
 {
@@ -57,6 +67,11 @@ function array_delete_key($array, $value)
 
 /**
  * Добавляет элемент в массив в указанную позицию
+ *
+ * @param array $array
+ * @param int $position
+ * @param mixed $insert
+ * @return array
  */
 function array_insert(&$array, $position, $insert)
 {
@@ -66,6 +81,10 @@ function array_insert(&$array, $position, $insert)
 
 /**
  * array_implode_multi
+ *
+ * @param string $sep
+ * @param array $array
+ * @return string
  */
 function array_multi_implode($sep, $array)
 {
@@ -80,6 +99,10 @@ function array_multi_implode($sep, $array)
 
 /**
  * Хоть один элемент подходят под $mix
+ *
+ * @param mixed $mix
+ * @param array $array
+ * @return boolean
  */
 function array_any($mix, $array)
 {
@@ -92,6 +115,10 @@ function array_any($mix, $array)
 
 /**
  * Все ли элементы подходят под $mix
+ *
+ * @param mixed $mix
+ * @param array $array
+ * @return boolean
  */
 function array_all($mix, $array)
 {
@@ -104,6 +131,10 @@ function array_all($mix, $array)
 
 /**
  * Сокращение дробной части без округления в большую сторону
+ *
+ * @param float $number
+ * @param int $round
+ * @return float
  */
 function number_fixed($number, $round=2)
 {
@@ -115,10 +146,25 @@ function number_fixed($number, $round=2)
 
 /**
  * Замена спец. символов (короткая запись Str::special)
+ *
+ * @param string $string
+ * @return string
  */
 function s($string)
 {
 	return Str::special($string);
+}
+
+/**
+ * Правильное окончание для русских слов
+ */
+function str_ending($count, $str_1, $str_2, $str_3)
+{
+    if($count % 10 == 1 AND $count != 11) $str = $str_1;
+    elseif(in_array($count % 10, array(2,3,4)) AND !in_array($count % 100, array(12,13,14))) $str = $str_2;
+    else $str = $str_3;
+
+    return $str;
 }
 
 /**

@@ -2,16 +2,16 @@
 
 return array(
 
-	'driver' => 'database',
+    'driver' => 'database',
 
-	'table' => 'sessions',
+    'table' => 'sessions',
 
-	'expire' => '90 min',
+    'expire' => '90 min',
 
-	'path' => '/',
+    'path' => '/',
 
-	'domain' => null,
+    'domain' => null,
 
-	'secure' => false,
+    'secure' => false,
 
 );

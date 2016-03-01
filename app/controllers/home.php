@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use View;
+
 class Home_Controller
 {
 	public function __construct() {}
@@ -14,5 +18,3 @@ class Home_Controller
 			->with('content', $content);
 	}
 }
-
-?>

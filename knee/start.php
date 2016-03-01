@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Knee framework
- * Назначение: Старт
+ * Старт
+ *
+ * Запускает ядро
  */
 
 namespace Knee;
@@ -76,5 +77,3 @@ Route::start();
  * Сброс буфера в браузер
  */
 ob_end_flush_all();
-
-?>
