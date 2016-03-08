@@ -11,13 +11,17 @@ class Memcached
 {
     /**
      * Коннект к memcached
+     *
+     * @var object
      */
-    private $connection = null;
+    protected $connection = null;
 
     /**
      * Ключ-прификс
+     *
+     * @var string
      */
-    private $token = null;
+    protected $token = null;
 
     /**
      * Подключение
@@ -35,8 +39,10 @@ class Memcached
 
     /**
      * Подключение
+     *
+     * @return Memcached
      */
-    private function connection()
+    protected function connection()
     {
         $memcached = new \Memcached;
 
@@ -51,6 +57,8 @@ class Memcached
 
     /**
      * Получение соединения
+     *
+     * @return Memcached
      */
     public function connect()
     {
@@ -63,6 +71,12 @@ class Memcached
 
     /**
      * Добавление данных в кэш с перезаписью зачений
+     *
+     * @param string $key
+     * @param string $value
+     * @param array $tags
+     * @param int $expire
+     * @return boolean
      */
     public function set($key, $value, $tags = array(), $expire = 0)
     {
@@ -103,6 +117,9 @@ class Memcached
 
     /**
      * Получение значения из кэша
+     *
+     * @param string $key
+     * @return string|null
      */
     public function get($key)
     {
@@ -134,6 +151,9 @@ class Memcached
 
     /**
      * Удаление данных из кэша
+     *
+     * @param string $key
+     * @return boolean
      */
     public function del($key)
     {
@@ -148,6 +168,9 @@ class Memcached
 
     /**
      * Проверка существования данных в кэше, учитывает обнуление тегов
+     *
+     * @param string $key
+     * @return boolean
      */
     public function exists($key)
     {
@@ -156,6 +179,9 @@ class Memcached
 
     /**
      * "Удалить" все объекты или обнулить тег
+     *
+     * @param array $tags
+     * @return boolean
      */
     public function clear($tags = array())
     {
@@ -180,6 +206,11 @@ class Memcached
 
     /**
      * Добавление данных в кэш (для внутренних нужд)
+     *
+     * @param string $key
+     * @param string $value
+     * @param int $expire
+     * @return boolean
      */
     public function add($key, $value, $expire = 0)
     {
@@ -218,5 +249,3 @@ class Memcached
         return $connect->add($this->token.'var.'.$key, $values, $expire);
     }
 }
-
-?>

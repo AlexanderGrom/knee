@@ -11,16 +11,24 @@ class Event
 {
     /**
      * Массив с событиями на прослушке
+     *
+     * @var array
      */
-    private static $events = array();
+    protected static $events = array();
 
     /**
      * Массив с моделями событий
+     *
+     * @var array
      */
-    private static $models = array();
+    protected static $models = array();
 
     /**
      * Установка слушателя на событие
+     *
+     * @param string $event
+     * @param Closure $action
+     * @return boolean
      */
     public static function listen($event, Closure $action)
     {
@@ -34,7 +42,9 @@ class Event
     public static function fire()
     {
         $params = func_get_args();
-        if (count($params) == 0) return false;
+        if (count($params) == 0) {
+            return false;
+        }
 
         $event = array_shift($params);
 
@@ -47,6 +57,9 @@ class Event
 
     /**
      * Проверка существования события
+     *
+     * @param string $event
+     * @return boolean
      */
     public static function exists($event)
     {
@@ -55,6 +68,9 @@ class Event
 
     /**
      * Удаление всех данных
+     *
+     * @param string $event
+     * @return boolean
      */
     public static function clear($event)
     {
@@ -68,6 +84,9 @@ class Event
 
     /**
      * Получение модели события
+     *
+     * @param string $path
+     * @return object
      */
     public static function get($path)
     {
@@ -97,5 +116,3 @@ class Event
         }
     }
 }
-
-?>

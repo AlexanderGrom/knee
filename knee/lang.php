@@ -9,21 +9,30 @@ class Lang
 {
     /**
      * Выбранный язык
+     *
+     * @var string
      */
-    private static $locale = "";
+    protected static $locale = "";
 
     /**
      * Массив с языковыми текстами
+     *
+     * @var array
      */
-    private static $items = array();
+    protected static $items = array();
 
     /**
      * Массив c распарсеными "точечными" путями
+     *
+     * @var array
      */
-    private static $parsed = array();
+    protected static $parsed = array();
 
     /**
      * Установка языка
+     *
+     * @param string $lang
+     * @return boolean
      */
     public static function setLocale($lang)
     {
@@ -38,6 +47,8 @@ class Lang
 
     /**
      * Получить установленный язык
+     *
+     * @return string
      */
     public static function getLocale()
     {
@@ -46,6 +57,9 @@ class Lang
 
     /**
      * Проверить существует ли языковая директория
+     *
+     * @param string $lang
+     * @return boolean
      */
     public static function locale_exists($lang)
     {
@@ -59,8 +73,11 @@ class Lang
 
     /**
      * Загрузка языковых файлов из /app/languages/
+     *
+     * @param string $file_name
+     * @return boolean
      */
-    private static function load($file_name)
+    protected static function load($file_name)
     {
         if ($file_name == "") return false;
 
@@ -84,6 +101,9 @@ class Lang
 
     /**
      * Получение значения
+     *
+     * @param string $key
+     * @return mixed
      */
     public static function get($key)
     {
@@ -107,6 +127,10 @@ class Lang
 
     /**
      * Переопределение значения
+     *
+     * @param string $key
+     * @param string $value
+     * @return boolean
      */
     public static function set($key, $value)
     {
@@ -132,8 +156,11 @@ class Lang
 
     /**
      * Парсинг "точечного" пути к языковому файлу
+     *
+     * @param string $path
+     * @return array
      */
-    private static function parse($path)
+    protected static function parse($path)
     {
         if ($path == "") return array();
 
@@ -146,5 +173,3 @@ class Lang
         return static::$parsed[$path] = $segments;
     }
 }
-
-?>

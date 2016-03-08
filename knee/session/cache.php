@@ -11,12 +11,12 @@ class Cache
     /**
      * Массив с данными сессии
      */
-    private $session_data = array();
+    protected $session_data = array();
 
     /**
      * ID сессии
      */
-    private $session_id = null;
+    protected $session_id = null;
 
     /**
      * Старт сессии
@@ -33,7 +33,7 @@ class Cache
     /**
      * Получение или создание нового ID сессии
      */
-    private function session_id()
+    protected function session_id()
     {
         $session_id = Cookie::get('session_id');
 
@@ -62,7 +62,7 @@ class Cache
     /**
      * Чтение данных сессии
      */
-    private function read()
+    protected function read()
     {
         $session_data = \Knee\Cache::get("ses_".$this->session_id);
 
@@ -72,7 +72,7 @@ class Cache
     /**
      * Запись данных сессии
      */
-    private function write()
+    protected function write()
     {
         extract(Config::get('session'));
 
@@ -123,7 +123,7 @@ class Cache
     /**
      * Обновление данных сессии
      */
-    private function update()
+    protected function update()
     {
         $this->write();
     }
@@ -141,7 +141,7 @@ class Cache
     /**
      * Блокировка
      */
-    private function lock()
+    protected function lock()
     {
         $lock_key = "ses_lock_".$this->session_id;
         $lock_time = 7;
@@ -155,7 +155,7 @@ class Cache
     /**
      * Снятие блокировки
      */
-    private function unlock()
+    protected function unlock()
     {
         \Knee\Cache::del("ses_lock_".$this->session_id);
     }
@@ -163,7 +163,7 @@ class Cache
     /**
      * Установка cookie
      */
-    private function cookie($session_id)
+    protected function cookie($session_id)
     {
         extract(Config::get('session'));
 

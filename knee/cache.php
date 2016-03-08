@@ -9,13 +9,15 @@ class Cache
 {
     /**
      * Коннект
+     *
+     * @var object
      */
-    private static $connection = null;
+    protected static $connection = null;
 
     /**
      * Подключение
      */
-    private static function connection()
+    protected static function connection()
     {
         $driver = mb_strtolower(Config::get('cache.driver'));
 
@@ -31,8 +33,10 @@ class Cache
 
     /**
      * Получение соединения
+     *
+     * @return object
      */
-    private static function connect()
+    protected static function connect()
     {
         if (!is_object(static::$connection)) {
             if ((static::$connection = static::connection()) === null) {

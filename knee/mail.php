@@ -10,6 +10,8 @@ class Mail
 {
     /**
      * Mail Maker (конструктор)
+     *
+     * @return \Knee\Mail\Maker
      */
     public static function maker()
     {

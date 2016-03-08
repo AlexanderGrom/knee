@@ -9,13 +9,17 @@ class Maker
 {
     /**
      * Объект для работы с заголовками
+     *
+     * @var \Knee\Mail\Headers
      */
-    private $MailHeaders = null;
+    protected $MailHeaders = null;
 
     /**
      * Объект для работы с телом письма
+     *
+     * @var \Knee\Mail\Body
      */
-    private $MailBody = null;
+    protected $MailBody = null;
 
     /**
      * Конструктор
@@ -28,6 +32,10 @@ class Maker
 
     /**
      * Имя и адрес получателя
+     *
+     * @param string $address - email адрес
+     * @param string $name - имя человека
+     * @return Knee\Mail\Maker
      */
     public function to($address, $name = null)
     {
@@ -38,6 +46,10 @@ class Maker
 
     /**
      * Имя и адрес отправителя
+     *
+     * @param string $address - email адрес
+     * @param string $name - имя человека
+     * @return Knee\Mail\Maker
      */
     public function from($address, $name = null)
     {
@@ -48,6 +60,9 @@ class Maker
 
     /**
      * Тема письма
+     *
+     * @param string $title - заголовок
+     * @return Knee\Mail\Maker
      */
     public function subject($title)
     {
@@ -58,6 +73,9 @@ class Maker
 
     /**
      * Отправка письма в формате text
+     *
+     * @param string $text - тело письма в формате text/plain
+     * @return Knee\Mail\Maker
      */
     public function text($text = '')
     {
@@ -69,6 +87,9 @@ class Maker
 
     /**
      * Отправка письма в формате html
+     *
+     * @param string $text - тело письма в формате text/html
+     * @return Knee\Mail\Maker
      */
     public function html($html = '')
     {
@@ -86,9 +107,9 @@ class Maker
         $headers = $this->MailHeaders->headers();
         $message = $this->MailBody->body();
 
-        if (!isset($headers['To'])) return false;
-        if (!isset($headers['From'])) return false;
-        if (!isset($headers['Subject'])) return false;
+        if (!isset($headers['To'])) { return false };
+        if (!isset($headers['From'])) { return false };
+        if (!isset($headers['Subject'])) { return false };
 
         $to = $headers['To'];
         $subject = $headers['Subject'];
@@ -108,5 +129,3 @@ class Maker
         return true;
     }
 }
-
-?>

@@ -9,6 +9,13 @@ class Page
 {
     /**
      * Пагинация
+     *
+     * @param int $total_item
+     * @param int $view_item
+     * @param int $view_page
+     * @param int $current_page
+     * @param int $limit_page
+     * @return object
      */
     public static function make($total_item, $view_item, $view_page, $current_page, $limit_page = null)
     {

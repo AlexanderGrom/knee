@@ -9,6 +9,9 @@ class Cookie
 {
     /**
      * Получение значения кука
+     *
+     * @param string $name
+     * @return string|null
      */
     public static function get($name)
     {
@@ -17,6 +20,9 @@ class Cookie
 
     /**
      * Получение значения нешифрованого кука
+     *
+     * @param string $name
+     * @return string|null
      */
     public static function getRaw($name)
     {
@@ -33,6 +39,12 @@ class Cookie
 
     /**
      * Установка куков
+     * @param string $name
+     * @param string $path
+     * @param string $domain
+     * @param boolean $secure
+     * @param boolean $httponly
+     * @return string|null
      */
     public static function setRaw($name, $value, $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
     {
@@ -53,6 +65,13 @@ class Cookie
 
     /**
      * Удаление куков
+     *
+     * @param string $name
+     * @param string $path
+     * @param string $domain
+     * @param boolean $secure
+     * @param boolean $httponly
+     * @return string|null
      */
     public static function del($name, $path = '/', $domain = null, $secure = false, $httponly = false)
     {
@@ -65,6 +84,9 @@ class Cookie
 
     /**
      * Проверка существования
+     *
+     * @param string $name
+     * @return boolean
      */
     public static function exists($name)
     {
@@ -73,16 +95,22 @@ class Cookie
 
     /**
      * Получаем хэш по ключу
+     *
+     * @param string $value
+     * @return string
      */
-    private static function hash($value)
+    protected static function hash($value)
     {
         return hash_hmac('md5', $value, Config::get('main.token'));
     }
 
     /**
      * Парсим значение кука, отделяя и проверяя секретный ключ
+     *
+     * @param string $value
+     * @return string|null
      */
-    private static function parse($value)
+    protected static function parse($value)
     {
         $segments = explode('+', $value);
 
@@ -100,5 +128,3 @@ class Cookie
         return null;
     }
 }
-
-?>

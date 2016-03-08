@@ -9,16 +9,24 @@ class Buffer
 {
     /**
      * Массив с блоками
+     *
+     * @var array
      */
-    private $blocks = array();
+    protected $blocks = array();
 
     /**
      * Массив с позициями блоков
+     *
+     * @var array
      */
-    private $positions = array();
+    protected $positions = array();
 
     /**
      * Добавление нового блока в буфер
+     *
+     * @param string $path
+     * @param int|null $position
+     * @return boolean
      */
     public function add($path, $position = null)
     {
@@ -60,6 +68,10 @@ class Buffer
 
     /**
      * Смена позиции блока
+     *
+     * @param string $path
+     * @param int $position
+     * @return boolean
      */
     public function pos($path, $position)
     {
@@ -73,6 +85,9 @@ class Buffer
 
     /**
      * Получение конкрутного блока
+     *
+     * @param string $path
+     * @return mixed
      */
     public function get($path)
     {
@@ -85,6 +100,8 @@ class Buffer
 
     /**
      * Сброс буфера
+     *
+     * @return string
      */
     public function flush()
     {
@@ -115,6 +132,9 @@ class Buffer
 
     /**
      * Удаление конкретного блока из буфера
+     *
+     * @param string $path
+     * @return boolean
      */
     public function del($path)
     {
@@ -133,6 +153,8 @@ class Buffer
 
     /**
      * Очистка буфера блоков
+     *
+     * @return boolean
      */
     public function clear()
     {
@@ -143,11 +165,11 @@ class Buffer
 
     /**
      * Неявный flush
+     *
+     * @return string
      */
     public function __toString()
     {
         return $this->flush();
     }
 }
-
-?>

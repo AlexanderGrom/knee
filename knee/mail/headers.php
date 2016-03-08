@@ -9,8 +9,10 @@ class Headers
 {
     /**
      * Массив установленых заголовков
+     *
+     * @var array
      */
-    private $headers = array();
+    protected $headers = array();
 
     /**
      * Конструктор
@@ -25,6 +27,9 @@ class Headers
 
     /**
      * Тип контента
+     *
+     * @param string $type
+     * @return boolean
      */
     public function content_type($type)
     {
@@ -35,6 +40,10 @@ class Headers
 
     /**
      * Имя и адрес получателя
+     *
+     * @param string $address - email адрес
+     * @param string $name - имя человека
+     * @return boolean
      */
     public function to($address, $name = null)
     {
@@ -55,6 +64,10 @@ class Headers
 
     /**
      * Имя и адрес отправителя
+     *
+     * @param string $address - email адрес
+     * @param string $name - имя человека
+     * @return boolean
      */
     public function from($address, $name = null)
     {
@@ -78,6 +91,9 @@ class Headers
 
     /**
      * Тема письма
+     *
+     * @param string $title - заголовок
+     * @return boolean
      */
     public function subject($title)
     {
@@ -88,6 +104,8 @@ class Headers
 
     /**
      * Массив с заголовками
+     *
+     * @return array
      */
     public function headers()
     {
@@ -96,16 +114,21 @@ class Headers
 
     /**
      * Кодирует заголовки
+     *
+     * @return string
      */
-    private function encodeHeader($str)
+    protected function encodeHeader($str)
     {
         return mb_encode_mimeheader($this->secureHeader($str), "UTF-8", "B", "\r\n");
     }
 
     /**
      * Убираем лишнии пробелы и переводы строк
+     *
+     * @param string $str
+     * @return string
      */
-    private function secureHeader($str)
+    protected function secureHeader($str)
     {
         $str = str_replace("\r", '', $str);
         $str = str_replace("\n", '', $str);
@@ -115,11 +138,12 @@ class Headers
 
     /**
      * Простая проверка Email на валидность
+     *
+     * @param string $email
+     * @return boolean
      */
-    private function is_email($email)
+    protected function is_email($email)
     {
         return (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) ? true : false;
     }
 }
-
-?>

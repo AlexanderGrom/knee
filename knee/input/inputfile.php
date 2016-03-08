@@ -9,16 +9,23 @@ class InputFile
 {
     /**
      * Имя поля
+     *
+     * @var string
      */
-    private $key = "";
+    protected $key = "";
 
     /**
      * Дополнительные ключи (name='file[logos][]')
+     *
+     * @var array
      */
-    private $keys = array();
+    protected $keys = array();
 
     /**
      * Конструктор
+     *
+     * @param string $key
+     * @param array $keys
      */
     public function __construct($key = "", $keys = array())
     {
@@ -28,6 +35,8 @@ class InputFile
 
     /**
      * Имя файла
+     *
+     * @return string
      */
     public function name()
     {
@@ -38,6 +47,8 @@ class InputFile
 
     /**
      * Путь к загруженному файлу
+     *
+     * @return string
      */
     public function path()
     {
@@ -68,6 +79,8 @@ class InputFile
 
     /**
      * Mime-type файла
+     *
+     * @return string
      */
     public function mime()
     {
@@ -80,6 +93,8 @@ class InputFile
 
     /**
      * Проверка наличия файла
+     *
+     * @return boolean
      */
     public function exists()
     {
@@ -90,8 +105,10 @@ class InputFile
 
     /**
      * Получение значений
+     *
+     * @return array|null
      */
-    private function get($keys)
+    protected function get($keys)
     {
         $value =& $_FILES;
         foreach ($keys as $key) {
@@ -107,5 +124,3 @@ class InputFile
         return $value;
     }
 }
-
-?>

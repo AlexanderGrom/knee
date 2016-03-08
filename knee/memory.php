@@ -9,11 +9,16 @@ class Memory
 {
     /**
      * Массив временных данных
+     *
+     * @var array
      */
-    private static $memory = array();
+    protected static $memory = array();
 
     /**
      * Получение данных из памяти
+     *
+     * @param string $key
+     * @return string|null
      */
     public static function get($key)
     {
@@ -22,6 +27,10 @@ class Memory
 
     /**
      * Добавление данных в память
+     *
+     * @param string $key
+     * @param string $value
+     * @return boolean
      */
     public static function set($key, $value)
     {
@@ -31,6 +40,9 @@ class Memory
 
     /**
      * Удаление данных из памяти
+     *
+     * @param string $key
+     * @return boolean
      */
     public static function del($key)
     {
@@ -44,6 +56,9 @@ class Memory
 
     /**
      * Проверка существования данных в сессии
+     *
+     * @param string $key
+     * @return boolean
      */
     public static function exists($key)
     {
@@ -52,6 +67,8 @@ class Memory
 
     /**
      * Удаление всех данных
+     *
+     * @return boolean
      */
     public static function clear()
     {

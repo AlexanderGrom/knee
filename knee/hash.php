@@ -9,6 +9,9 @@ class Hash
 {
     /**
      * Генерация хэша
+     *
+     * @param string $value
+     * @return string
      */
     public static function generate($value)
     {
@@ -20,6 +23,10 @@ class Hash
 
     /**
      * Проверка хэша
+     *
+     * @param string $value
+     * @param string $hash
+     * @return boolean
      */
     public static function verify($value, $hash)
     {

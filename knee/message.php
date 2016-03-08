@@ -9,11 +9,16 @@ class Message
 {
     /**
      * Групировки сообщений
+     *
+     * @var array
      */
-    private static $groups = array();
+    protected static $groups = array();
 
     /**
      * Работа с конкретной группой сообщений
+     * 
+     * @param string|null $group
+     * @return object
      */
     public static function group($group = null)
     {

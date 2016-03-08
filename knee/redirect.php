@@ -33,7 +33,7 @@ class Redirect
 	/**
 	 * Подготовка URL
 	 */
-	private static function correct_url($url)
+	protected static function correct_url($url)
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) === false) {
 			$url = Request::site()."/".ltrim($url, "/");

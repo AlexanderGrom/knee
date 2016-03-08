@@ -10,11 +10,15 @@ class Make
 {
     /**
      * Массив с результатами работы метода make
+     *
+     * @var array
      */
-    private $result = array();
+    protected $result = array();
 
     /**
      * Конструктор
+     *
+     * @param array $result
      */
     public function __construct($result)
     {
@@ -23,6 +27,8 @@ class Make
 
     /**
      * Пагинация в query string (/?page=2)
+     *
+     * @param string $name - имя параметра пагинации
      */
     public function query($name = 'page')
     {
@@ -116,6 +122,9 @@ class Make
 
     /**
      * Пагинация в path (/name/page2/)
+     *
+     * @param string $name - имя сигмента пагинации
+     * @return array
      */
     public function path($name = 'page')
     {
@@ -181,6 +190,8 @@ class Make
 
     /**
      * Пагинация в file (/name/file-2.html)
+     *
+     * @return array
      */
     public function file()
     {
@@ -248,5 +259,3 @@ class Make
         return $this->result;
     }
 }
-
-?>

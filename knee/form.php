@@ -201,7 +201,7 @@ class Form
     /**
      * select optgroup
      */
-    private static function optgroup($options, $label, $selected)
+    protected static function optgroup($options, $label, $selected)
     {
         $options_list = array();
         foreach ($options as $value=>$display) {
@@ -214,7 +214,7 @@ class Form
     /**
      * select option
      */
-    private static function option($value, $display, $selected)
+    protected static function option($value, $display, $selected)
     {
         if (is_array($selected)) {
             $selected = (in_array($value, $selected)) ? true : false;
@@ -232,7 +232,7 @@ class Form
     /**
      * Строка атрибутов тегов
      */
-    private static function attributes($attrs)
+    protected static function attributes($attrs)
     {
         $attr_list = array("");
         foreach ($attrs as $attr_name => $attr_value) {
@@ -250,7 +250,7 @@ class Form
      * Удаление элемента массива по ключу
      * Возвращает значение удаленного элемента
      */
-    private static function array_key_delete($key, &$array)
+    protected static function array_key_delete($key, &$array)
     {
         $value = "";
         if (array_key_exists($key, $array)) {

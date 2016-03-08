@@ -11,17 +11,17 @@ class DataBase
     /**
      * Массив с данными сессии
      */
-    private $session_data = array();
+    protected $session_data = array();
 
     /**
      * Таблица с данными
      */
-    private $session_storage = null;
+    protected $session_storage = null;
 
     /**
      * ID сессии
      */
-    private $session_id = null;
+    protected $session_id = null;
 
 
     /**
@@ -40,7 +40,7 @@ class DataBase
     /**
      * Получение или создание нового ID сессии
      */
-    private function session_id()
+    protected function session_id()
     {
         $session_id = Cookie::get('session_id');
 
@@ -77,7 +77,7 @@ class DataBase
     /**
      * Чтение данных сессии
      */
-    private function read()
+    protected function read()
     {
         $result = $this->storage($this->session_id);
 
@@ -93,7 +93,7 @@ class DataBase
     /**
      * Запись данных сессии
      */
-    private function write()
+    protected function write()
     {
         $session_data = @serialize($this->session_data);
 
@@ -169,7 +169,7 @@ class DataBase
     /**
      * Обновление данных сессии
      */
-    private function update()
+    protected function update()
     {
         $this->write();
     }
@@ -187,7 +187,7 @@ class DataBase
     /**
      * Блокировка
      */
-    private function lock()
+    protected function lock()
     {
         $lock_time = ini_get('max_execution_time');
 
@@ -201,7 +201,7 @@ class DataBase
     /**
      * Снятие блокировки
      */
-    private function unlock()
+    protected function unlock()
     {
         DB::query("SELECT RELEASE_LOCK(:lock_key)", array('lock_key'=>$this->session_id));
     }
@@ -209,7 +209,7 @@ class DataBase
     /**
      * Установка cookie
      */
-    private function cookie($session_id)
+    protected function cookie($session_id)
     {
         extract(Config::get('session'));
 
@@ -219,7 +219,7 @@ class DataBase
     /**
      * Удаление устаревших файлов сессии через лотерею
      */
-    private function sweep()
+    protected function sweep()
     {
         if (in_array(mt_rand(1, 100), array(7,23,45,66,81))) {
             $expire = Config::get('session.expire');

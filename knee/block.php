@@ -9,16 +9,23 @@ class Block
 {
     /**
      * Массив с блоками
+     *
+     * @var array
      */
-    private static $blocks = array();
+    protected static $blocks = array();
 
     /**
      * Массив буфера блоков
+     *
+     * @var array
      */
-    private static $buffers = array();
+    protected static $buffers = array();
 
     /**
      * Получение блоков
+     *
+     * @param string $path
+     * @return object
      */
     public static function get($path)
     {
@@ -34,7 +41,9 @@ class Block
         }
 
         foreach ($parse_path as $value) {
-            if (substr($value, 0, 1) == '_') return false;
+            if (substr($value, 0, 1) == '_') {
+                return false;
+            }
         }
 
         $file_path = ROOT_PATH.'/app/blocks/'.implode("/", $parse_path).'.php';
@@ -63,6 +72,9 @@ class Block
 
     /**
      * Работа с буфером блоков
+     *
+     * @param string $name
+     * @return string
      */
     public static function buffer($name)
     {

@@ -73,7 +73,7 @@ class Command
 	/**
 	 * Возвращает массив с путем к классу/методу и массивом параметров
 	 */
-	private static function arguments($argv)
+	protected static function arguments($argv)
 	{
 		$argv = array_splice($argv, 1);
 
@@ -91,7 +91,7 @@ class Command
 	/**
 	 * Парсит путь к вызываемому классу и методу
 	 */
-	private static function parse($call)
+	protected static function parse($call)
 	{
 		if (mb_strpos($call, ':') !== false) {
 			$parse_call = explode(':', $call);

@@ -9,11 +9,16 @@ class Auth
 {
 	/**
 	 * Массив с классами авторизации
+     *
+     * @var array
 	 */
-	private static $auths = array();
+	protected static $auths = array();
 
 	/**
 	 * Получение методов авторизации
+     *
+     * @param string $path - путь
+     * @return object
 	 */
 	public static function get($path)
 	{
@@ -24,10 +29,14 @@ class Auth
 		$parse_path = explode(".", $path);
 
 		$diff = array_diff($parse_path, array(''));
-		if ((count($parse_path) - count($diff)) != 0) return false;
+		if ((count($parse_path) - count($diff)) != 0) {
+            return false;
+        }
 
 		foreach ($parse_path as $value) {
-			if (substr($value, 0, 1) == '_') return false;
+			if (substr($value, 0, 1) == '_') {
+                return false;
+            }
 		}
 
 		$file_path = ROOT_PATH.'/app/auths/'.implode("/", $parse_path).'.php';

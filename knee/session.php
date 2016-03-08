@@ -9,11 +9,15 @@ class Session
 {
     /**
      * Коннект
+     *
+     * @var object
      */
-    private static $connection = null;
+    protected static $connection = null;
 
     /**
      * Старт новой сессии
+     *
+     * @return boolean
      */
     public static function start()
     {
@@ -30,7 +34,7 @@ class Session
     /**
      * Подключение драйвера сессии
      */
-    private static function connection()
+    protected static function connection()
     {
         $driver = mb_strtolower(Config::get('session.driver'));
 
@@ -48,8 +52,10 @@ class Session
 
     /**
      * Получение соединения
+     *
+     * @return object|boolean
      */
-    private static function connect()
+    protected static function connect()
     {
         $connect = static::$connection;
 
@@ -59,6 +65,10 @@ class Session
 
     /**
      * Добавление данных сессии
+     *
+     * @param string $key
+     * @param string $value
+     * @return boolean
      */
     public static function set($key, $value)
     {
@@ -70,6 +80,9 @@ class Session
 
     /**
      * Получение значения сессии по ключу
+     *
+     * @param string $key
+     * @return string|null
      */
     public static function get($key)
     {
@@ -81,6 +94,9 @@ class Session
 
     /**
      * Удаление данных сессии
+     *
+     * @param string $key
+     * @return boolean
      */
     public static function del($key)
     {
@@ -92,6 +108,9 @@ class Session
 
     /**
      * Проверка существования данных в сессии
+     *
+     * @param string $key
+     * @return boolean
      */
     public static function exists($key)
     {
@@ -126,7 +145,7 @@ class Session
     /**
      * Удаляет соединение
      */
-    private static function close()
+    protected static function close()
     {
         static::$connection = null;
     }
@@ -157,5 +176,3 @@ class Session
         }
     }
 }
-
-?>

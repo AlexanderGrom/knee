@@ -11,22 +11,22 @@ class File
     /**
      * Массив с данными сессии
      */
-    private $session_data = array();
+    protected $session_data = array();
 
     /**
      * Указатель на открытый файл с данными сессии
      */
-    private $session_resource = null;
+    protected $session_resource = null;
 
     /**
      * Путь к хранилищу файлов сессий
      */
-    private $session_storage = null;
+    protected $session_storage = null;
 
     /**
      * ID сессии
      */
-    private $session_id = null;
+    protected $session_id = null;
 
     /**
      * Старт сессии
@@ -45,7 +45,7 @@ class File
     /**
      * Получение или создание нового ID сессии
      */
-    private function session_id()
+    protected function session_id()
     {
         $session_id = Cookie::get('session_id');
 
@@ -75,7 +75,7 @@ class File
     /**
      * Путь к хранилищу данных
      */
-    private function storage($session_id = '')
+    protected function storage($session_id = '')
     {
         return $this->session_storage."/".$session_id;
     }
@@ -83,7 +83,7 @@ class File
     /**
      * Чтение данных из файла сессии
      */
-    private function read()
+    protected function read()
     {
         $data = "";
         while (($buffer = fgets($this->session_resource, 4096)) !== false) {
@@ -98,7 +98,7 @@ class File
     /**
      * Запись данных в файл сессии
      */
-    private function write()
+    protected function write()
     {
         $session_data = @serialize($this->session_data);
 
@@ -152,7 +152,7 @@ class File
     /**
      * Обновление данных сессии
      */
-    private function update()
+    protected function update()
     {
         $this->write();
     }
@@ -170,7 +170,7 @@ class File
     /**
      * Блокировка
      */
-    private function lock()
+    protected function lock()
     {
         return flock($this->session_resource, LOCK_EX);
     }
@@ -178,7 +178,7 @@ class File
     /**
      * Снятие блокировки
      */
-    private function unlock()
+    protected function unlock()
     {
         return flock($this->session_resource, LOCK_UN);
     }
@@ -186,7 +186,7 @@ class File
     /**
      * Установка cookie
      */
-    private function cookie($session_id)
+    protected function cookie($session_id)
     {
         extract(Config::get('session'));
 
@@ -196,7 +196,7 @@ class File
     /**
      * Удаление устаревших файлов сессии через лотерею
      */
-    private function sweep()
+    protected function sweep()
     {
         if (in_array(mt_rand(1, 100), array(7,23,45,66,81))) {
             $expire = Config::get('session.expire');

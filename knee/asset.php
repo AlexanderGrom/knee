@@ -234,7 +234,7 @@ class Asset
      * @param string $path
      * @return string
 	 */
-	private static function version($path)
+	protected static function version($path)
 	{
 		$versions =& Config::get('asset');
 

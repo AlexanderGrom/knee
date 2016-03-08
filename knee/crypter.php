@@ -9,21 +9,30 @@ class Crypter
 {
     /**
      *  Алгоритм шифрования
+     *
+     * @var int
      */
     public static $cipher = MCRYPT_RIJNDAEL_256;
 
     /**
      * Режим шифрования
+     *
+     * @var int
      */
     public static $mode = MCRYPT_MODE_CBC;
 
     /**
      * Размер блока шифра
+     *
+     * @var int
      */
     public static $block = 32;
 
     /**
      * Шифрование строки
+     *
+     * @param string $value
+     * @return string
      */
     public static function encrypt($value)
     {
@@ -40,6 +49,9 @@ class Crypter
 
     /**
      * Расшифровывание строки
+     *
+     * @param string $value
+     * @return string
      */
     public static function decrypt($value)
     {
@@ -72,7 +84,7 @@ class Crypter
     /**
      * Получаем размер входного вектора для алгоритка шифрования и режима
      */
-    private static function get_iv_size()
+    protected static function get_iv_size()
     {
         return mcrypt_get_iv_size(static::$cipher, static::$mode);
     }
@@ -80,7 +92,7 @@ class Crypter
     /**
      * Приводим к формату PKCS7
      */
-    private static function pad($value)
+    protected static function pad($value)
     {
         $pad = static::$block - (strlen($value) % static::$block);
 
@@ -90,7 +102,7 @@ class Crypter
     /**
      * Получаем исходное значение из строки в формате PKCS7
      */
-    private static function unpad($value)
+    protected static function unpad($value)
     {
         $pad = ord(substr($value, -1, 1));
 
@@ -104,5 +116,3 @@ class Crypter
         }
     }
 }
-
-?>

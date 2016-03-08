@@ -9,16 +9,15 @@ class Body
 {
     /**
      * Тело письма
+     *
+     * @var string
      */
-    private $message = '';
-
-    /**
-     * Конструктор
-     */
-    public function __construct() {}
+    protected $message = '';
 
     /**
      * Принимает тело письма
+     *
+     * @param string $message
      */
     public function message($message)
     {
@@ -27,6 +26,8 @@ class Body
 
     /**
      * Возвращает тело письма
+     *
+     * @return string
      */
     public function body()
     {
@@ -35,11 +36,12 @@ class Body
 
     /**
      * Кодирует тело письма
+     *
+     * @param string $str
+     * @return string
      */
-    private function encodeBody($str)
+    protected function encodeBody($str)
     {
         return chunk_split(base64_encode($str), 74, "\r\n");
     }
 }
-
-?>

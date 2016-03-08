@@ -9,21 +9,22 @@ class Group
 {
     /**
      * Массив объектов контейнеров сообщений
+     *
+     * @var array
      */
-    private $containers = array();
+    protected $containers = array();
 
     /**
      * Активный контейнер сообщений
+     *
+     * @var stdClass
      */
-    private $container = null;
-
-    /**
-     * Конструктор
-     */
-    public function __construct() {}
+    protected $container = null;
 
     /**
      * Создание нового контейнера для сообщений
+     *
+     * @return boolean
      */
     public function start()
     {
@@ -36,6 +37,8 @@ class Group
 
     /**
      * Добавление сообщения
+     *
+     * @param string $value - сообщение
      */
     public function set($value = '')
     {
@@ -49,6 +52,8 @@ class Group
 
     /**
      * Получение сообщений в виде текста
+     *
+     * @return string
      */
     public function getText()
     {
@@ -61,6 +66,8 @@ class Group
 
     /**
      * Получение сообщений в виде массива
+     *
+     * @return array
      */
     public function getList()
     {
@@ -73,6 +80,8 @@ class Group
 
     /**
      * Получение сообщений в виде данных в формате JSON
+     *
+     * @return string
      */
     public function getJSON()
     {
@@ -85,6 +94,8 @@ class Group
 
     /**
      * Получение сообщений в виде данных в формате HTML
+     *
+     * @return string
      */
     public function getHTML()
     {
@@ -103,6 +114,8 @@ class Group
 
     /**
      * Получение кол-ва сообщений
+     *
+     * @return int
      */
     public function count()
     {
@@ -115,6 +128,8 @@ class Group
 
     /**
      * Получение уровня контейнера сообщений
+     *
+     * @return int
      */
     public function level()
     {
@@ -123,6 +138,8 @@ class Group
 
     /**
      * Удаление всех сообщений в контейнере
+     *
+     * @return boolean
      */
     public function clear()
     {
@@ -136,6 +153,8 @@ class Group
 
     /**
      * Закрытие последнего контейнера
+     *
+     * @return boolean
      */
     public function end()
     {
@@ -148,5 +167,3 @@ class Group
         }
     }
 }
-
-?>

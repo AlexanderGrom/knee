@@ -9,11 +9,16 @@ class Map
 {
     /**
      * Массив с мапами
+     *
+     * @var array
      */
-    private static $maps = array();
+    protected static $maps = array();
 
     /**
      * Получение мапов
+     *
+     * @param string $path
+     * @return object
      */
     public static function get($path)
     {
@@ -24,10 +29,14 @@ class Map
         $parse_path = explode(".", $path);
 
         $diff = array_diff($parse_path, array(''));
-        if ((count($parse_path) - count($diff)) != 0) return false;
+        if ((count($parse_path) - count($diff)) != 0) {
+            return false;
+        }
 
         foreach ($parse_path as $value) {
-            if (substr($value, 0, 1) == '_') return false;
+            if (substr($value, 0, 1) == '_') {
+                return false;
+            }
         }
 
         $file_path = ROOT_PATH.'/app/maps/'.implode("/", $parse_path).'.php';
@@ -54,5 +63,3 @@ class Map
         }
     }
 }
-
-?>
